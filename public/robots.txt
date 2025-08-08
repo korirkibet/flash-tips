@@ -1,0 +1,11 @@
+# Allow all bots
+User-agent: *
+Disallow:
+
+# Specify the sitemap location
+Sitemap: https://flashviptips.com/sitemap.xml
+
+# (Optional) Restrict access to certain areas
+Disallow: /admin/tips/
+Disallow: /users/
+Disallow: /users-edit/

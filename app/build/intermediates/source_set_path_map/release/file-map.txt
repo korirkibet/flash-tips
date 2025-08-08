@@ -1,0 +1,10 @@
+com.flashviptips.twa.app-browser-1.4.0-0 C:\Users\User\.gradle\caches\8.8\transforms\144cc30278b67075340e24597383bf7d\transformed\browser-1.4.0\res
+com.flashviptips.twa.app-androidbrowserhelper-2.5.0-1 C:\Users\User\.gradle\caches\8.8\transforms\18414021eab312b09151b749731a3b6c\transformed\androidbrowserhelper-2.5.0\res
+com.flashviptips.twa.app-core-1.1.0-2 C:\Users\User\.gradle\caches\8.8\transforms\b48c4e1e57d171c937a664632ba54967\transformed\core-1.1.0\res
+com.flashviptips.twa.app-pngs-3 C:\Users\User\vscodeProjects\powerking-aruna\app\build\generated\res\pngs\release
+com.flashviptips.twa.app-resValues-4 C:\Users\User\vscodeProjects\powerking-aruna\app\build\generated\res\resValues\release
+com.flashviptips.twa.app-packageReleaseResources-5 C:\Users\User\vscodeProjects\powerking-aruna\app\build\intermediates\incremental\release\packageReleaseResources\merged.dir
+com.flashviptips.twa.app-packageReleaseResources-6 C:\Users\User\vscodeProjects\powerking-aruna\app\build\intermediates\incremental\release\packageReleaseResources\stripped.dir
+com.flashviptips.twa.app-merged_res-7 C:\Users\User\vscodeProjects\powerking-aruna\app\build\intermediates\merged_res\release
+com.flashviptips.twa.app-main-8 C:\Users\User\vscodeProjects\powerking-aruna\app\src\main\res
+com.flashviptips.twa.app-release-9 C:\Users\User\vscodeProjects\powerking-aruna\app\src\release\res

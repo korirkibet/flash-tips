@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.flashviptips.twa.app-mergeReleaseResources-5:/values-si/values-si.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\User\\.gradle\\caches\\8.8\\transforms\\144cc30278b67075340e24597383bf7d\\transformed\\browser-1.4.0\\res\\values-si\\values-si.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,163,270,386",
+                        "endColumns": "107,106,115,104",
+                        "endOffsets": "158,265,381,486"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\User\\.gradle\\caches\\8.8\\transforms\\b48c4e1e57d171c937a664632ba54967\\transformed\\core-1.1.0\\res\\values-si\\values-si.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "491",
+                        "endColumns": "100",
+                        "endOffsets": "587"
+                    }
+                }
+            ]
+        }
+    ]
+}

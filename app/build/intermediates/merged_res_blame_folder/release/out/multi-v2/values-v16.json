@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.flashviptips.twa.app-mergeReleaseResources-5:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\User\\.gradle\\caches\\8.8\\transforms\\b48c4e1e57d171c937a664632ba54967\\transformed\\core-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}
