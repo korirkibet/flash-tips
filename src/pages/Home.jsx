@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAllTips } from '../firebase';
 import AppHelmet from '../components/AppHelmet';
 import { NavLink } from 'react-router-dom';
@@ -14,130 +14,114 @@ export default function Home({ userData }) {
   const [filteredTips, setFilteredTips] = useState(null);
   const { setPrice } = useContext(PriceContext);
   const [status, setStatus] = useState(false);
-  const [isOnline] = useState(() => {
-    return navigator.onLine
-  })
-
-
+  const [isOnline] = useState(() => navigator.onLine);
 
   useEffect(() => {
     getAllTips(setAllTips, setLoading)
   }, [isOnline]);
 
   useEffect(() => {
-    loading && setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    if (loading) {
+      const timer = setTimeout(() => setLoading(false), 3000);
+      return () => clearTimeout(timer);
+    }
   }, [loading]);
 
-
   useEffect(() => {
-    if (allTips !== null) {
-      const groupedData = allTips.reduce((acc, item) => {
-        // Use the date as the key for grouping
-        const dateKey = item.date;
-
-        // If the date key doesn't exist in the accumulator, create a new array
-        if (!acc[dateKey]) {
-          acc[dateKey] = [];
-        }
-
-        // Push the current item into the corresponding date group
-        acc[dateKey].push(item);
-
-        return acc;
-      }, {});
-
-      // Convert the result to an array of grouped objects
-      const result = Object.keys(groupedData).map(date => ({
-        date,
-        items: groupedData[date]
-      })).sort((a, b) => new Date(b.date) - new Date(a.date));;
-      setFilteredTips(result);
-    }
-
+    if (allTips === null) return;
+    const grouped = allTips.reduce((acc, item) => {
+      const key = item.date;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    }, {});
+    const result = Object.keys(grouped).map(date => ({
+      date,
+      items: grouped[date]
+    })).sort((a, b) => new Date(b.date) - new Date(a.date));
+    setFilteredTips(result);
   }, [allTips]);
 
   return (
     <div className='Home'>
-      <AppHelmet title={"Home"} location={''} />
+      <AppHelmet
+        title="Home"
+        location=""
+        description="Get accurate football predictions for Premier League, La Liga, Bundesliga, Serie A and more. Free and VIP betting tips with expert analysis."
+        keywords="football predictions, vip tips, betting tips, soccer predictions, premier league tips, fixed matches"
+      />
       <section>
         <Tips userData={userData} />
       </section>
       <section>
-        <h1>Pricing</h1>
+        <h1 className="section-title">Pricing</h1>
         <Pricing />
       </section>
       <section className='tables'>
-        {
-          filteredTips && <>
-            <h1>WINNING HISTORY</h1>
+        {filteredTips && (
+          <>
+            <h1 className="section-title">Winning History</h1>
             <span className='btn-holder'>
-              <div className={`btn ${!status && "selected"}`} onClick={() => setStatus(false)}>Free</div>
-              <div className={`btn ${status && "selected"}`} onClick={() => setStatus(true)}>Premium</div>
-              <NavLink to={"/pay"} className='btn'>GET VIP&raquo;</NavLink>
+              <div className={`btn ${!status ? "selected" : ""}`} onClick={() => setStatus(false)}>Free</div>
+              <div className={`btn ${status ? "selected" : ""}`} onClick={() => setStatus(true)}>Premium</div>
+              <NavLink to="/pay" className='btn'>Get VIP</NavLink>
             </span>
           </>
-        }
-        {
-          filteredTips && filteredTips.map(filteredTip => {
-            return (<>
-              {filteredTip.items && filteredTip.items.filter((tip) => (tip.status === 'finished') && (tip.premium === status)).length !== 0 && (<h2 key={filteredTip.date}>
-                {filteredTip.date}
-              </h2>)}
-              <table className='wrapper' >
-
-                {
-                  filteredTip.items && filteredTip.items.filter((tip) => (tip.status === 'finished') && (tip.premium === status)).length !== 0 && (
-                    <tr>
-
-                      <th>HOME</th>
-                      <th>AWAY</th>
-                      <th>PICK</th>
-                      <th>ODDS</th>
-                      <th>RESULTS</th>
-                    </tr>
-                  )
-                }
-
-                {filteredTip.items && filteredTip.items.filter((tip) => (tip.status === 'finished') && (tip.premium === status)).map(tip => {
-                  return (
-                    <tr key={filteredTip.items.indexOf(tip)}>
-
+        )}
+        {filteredTips && filteredTips.map(filteredTip => (
+          <div key={filteredTip.date} className="history-group">
+            {filteredTip.items && filteredTip.items.filter(t => t.status === 'finished' && t.premium === status).length > 0 && (
+              <h2>{filteredTip.date}</h2>
+            )}
+            {filteredTip.items && filteredTip.items.filter(t => t.status === 'finished' && t.premium === status).length > 0 && (
+              <table className='history-table wrapper'>
+                <thead>
+                  <tr>
+                    <th>Home</th>
+                    <th>Away</th>
+                    <th>Pick</th>
+                    <th>Odds</th>
+                    <th>Results</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredTip.items.filter(t => t.status === 'finished' && t.premium === status).map(tip => (
+                    <tr key={tip.id || `${tip.home}-${tip.away}`}>
                       <td>{tip.home}</td>
                       <td>{tip.away}</td>
                       <td>{tip.pick}</td>
                       <td>{tip.odd}</td>
                       <td>
-                        {tip.won === 'won' ?
+                        {tip.won === 'won' ? (
                           <span className='won'>
-                            <p>Won</p>
+                            <span>Won</span>
                             <Verified className='icon' />
-                          </span> :
+                          </span>
+                        ) : (
                           <span className='lost'>
-                            <p>Lost</p>
+                            <span>Lost</span>
                             <Error className='icon' />
                           </span>
-                        }
+                        )}
                       </td>
                     </tr>
-                  )
-                })}
+                  ))}
+                </tbody>
               </table>
-            </>)
-          })
-        }
+            )}
+          </div>
+        ))}
       </section>
       <section>
-        <h1>Testimonials</h1>
+        <h1 className="section-title">Testimonials</h1>
         <h2>What clients say:</h2>
         <Testimonials />
       </section>
       <section>
-        <div className="jobs-flyer" style={{ width: '100%', padding: '5px' }}>
+        <div className="cta-banner">
           <h1>Join The Winning Team</h1>
-          <h1>Get VIP memmbership for 1 month with as little as KSH 3000.</h1>
-          <NavLink to={"/pay"} className='btn' onClick={() => setPrice(3000)}>Subscribe Now</NavLink>
+          <h1>Get VIP membership for 1 month with as little as KSH 3000.</h1>
+          <NavLink to="/pay" className='btn' onClick={() => setPrice(3000)}>Subscribe Now</NavLink>
         </div>
       </section>
     </div>

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { increment } from "firebase/database";
 import { addDoc, collection, doc, getDoc, getDocs, getFirestore, limit, query, updateDoc, where, orderBy, setDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
@@ -208,7 +208,7 @@ export const getWonTips = async (pagination, setTips) => {
   const q = query(
     tipsCollectionRef,
     where("won", "==", "won"),
-    where("premium", "==", true), // Only include premium tips
+    where("premium", "==", true),
     limit(pagination)
   );
   const tips = [];
@@ -217,14 +217,22 @@ export const getWonTips = async (pagination, setTips) => {
     data.forEach((doc) => {
       tips.push({ id: doc.id, ...doc.data() });
     });
-
-    // Sort tips by date (make sure 'date' is a valid field in your documents)
     const sortedTips = tips.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // Set the sorted tips
     setTips(sortedTips);
   } catch (err) {
     console.error("Error fetching tips:", err);
-    // Handle the error as needed
   }
+};
+
+export const sendPasswordReset = (email, setSuccess, setError, onDone) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      setSuccess("Password reset link sent! Check your email inbox.");
+    })
+    .catch((err) => {
+      setError(err.message);
+    })
+    .finally(() => {
+      onDone();
+    });
 };

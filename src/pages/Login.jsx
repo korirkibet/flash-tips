@@ -43,7 +43,10 @@ export const Login = () => {
                     error && <h4 className='error'>{error}Try again</h4>
                 }
                 
-                <div className="text">Don't have an account?&emsp;|&emsp;<NavLink to='/register'>Sign Up &raquo;</NavLink>  </div>
+                <div className="text">
+                    <NavLink to='/forgot-password' style={{ fontSize: 'var(--text-sm)', color: 'var(--grey-400)' }}>Forgot password?</NavLink>
+                </div>
+                <div className="text">Don't have an account?&emsp;|&emsp;<NavLink to='/register'>Sign Up &raquo;</NavLink></div>
             </form>
         </div>
     );
