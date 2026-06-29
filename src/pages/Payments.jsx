@@ -1,18 +1,16 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-//import { PriceContext, AuthContext } from '../../contexts';
-import { Check, CopyAll, ArrowUpward } from '@mui/icons-material';
-import AppHelmet from '../../components/AppHelmet';
+import { Check, CopyAll } from '@mui/icons-material';
+import AppHelmet from '../components/AppHelmet';
 import NowPaymentsApi from '@nowpaymentsio/nowpayments-api-js';
 import { PaystackButton } from 'react-paystack';
 import { doc, setDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
-import './Payments.scss'
-import { AuthContext } from '../../AuthContext';
-import { PriceContext } from '../../PriceContext';
+import { db } from '../firebase';
+import { AuthContext } from '../AuthContext';
+import { PriceContext } from '../PriceContext';
 
 const npApi = new NowPaymentsApi({ apiKey: 'D7YT1YV-PCAM4ZN-HX9W5M1-H02KFCV' });
 
-export default function PaymentPage({ setUserData }) {
+export default function Payments({ setUserData }) {
     const { price, setPrice } = useContext(PriceContext);
     const { currentUser } = useContext(AuthContext);
     const [paymentType, setPaymentType] = useState("mpesa");
@@ -25,13 +23,11 @@ export default function PaymentPage({ setUserData }) {
     const [address, setAddress] = useState("");
     const [network, setNetwork] = useState("");
 
-    // Payment methods
     const paymentMethods = [
-        { id: "mpesa", label: "M-Pesa | Card 📲" },
-        { id: "crypto", label: "Crypto ₿" }
+        { id: "mpesa", label: "M-Pesa | Card", icon: "📲" },
+        { id: "crypto", label: "Crypto", icon: "₿" }
     ];
 
-    // Subscription plans
     const subscriptionPlans = {
         mpesa: [
             { id: "daily", value: 200, label: "Daily VIP", price: "KSH 200" },
@@ -71,7 +67,6 @@ export default function PaymentPage({ setUserData }) {
             }, { merge: true });
 
             alert(`You Have Upgraded To ${getSubscriptionPeriod()} VIP`);
-            await getUser(currentUser.email, setUserData);
             window.location.pathname = '/';
         } catch (error) {
             alert(error.message);
@@ -125,12 +120,10 @@ export default function PaymentPage({ setUserData }) {
     }, [selectedCurrency, price, paymentType]);
 
     return (
-        <div className="payment-container">
+        <div className="payments">
             <AppHelmet title="Payment" location="/pay" />
-
             <div className="payment-glass">
                 <h2 className="payment-title">Select Payment Method</h2>
-
                 <div className="method-selector">
                     {paymentMethods.map(method => (
                         <label key={method.id} className={`method-option ${paymentType === method.id ? 'active' : ''}`}>
@@ -141,11 +134,11 @@ export default function PaymentPage({ setUserData }) {
                                 checked={paymentType === method.id}
                                 onChange={() => setPaymentType(method.id)}
                             />
+                            <span>{method.icon}</span>
                             {method.label}
                         </label>
                     ))}
                 </div>
-
                 <div className="plan-selector">
                     {subscriptionPlans[paymentType].map(plan => (
                         <label key={plan.id} className={`plan-option ${price === plan.value ? 'active' : ''}`}>
@@ -161,11 +154,9 @@ export default function PaymentPage({ setUserData }) {
                         </label>
                     ))}
                 </div>
-
                 {paymentType === "crypto" ? (
                     <div className="crypto-details">
                         <h3>CRYPTO PAYMENT DETAILS</h3>
-
                         <div className="form-group">
                             <label>Select Currency:</label>
                             <select
@@ -178,13 +169,11 @@ export default function PaymentPage({ setUserData }) {
                                 ))}
                             </select>
                         </div>
-
                         <div className="payment-info">
                             <p>Amount: <span>{payAmount} {payCurrency?.toUpperCase()}</span></p>
                             <p>Network: <span>{network?.toUpperCase()}</span></p>
                             <p>Address: <span>{address}</span></p>
                         </div>
-
                         <div className="address-copy">
                             <input
                                 type="text"

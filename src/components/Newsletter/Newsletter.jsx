@@ -1,6 +1,6 @@
 import { Send } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
-import './Newsletter.scss';
+
 import {addMailList} from '../../firebase';
 
 const Newsletter = () => {

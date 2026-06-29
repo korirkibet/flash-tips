@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserCard.scss";
+
 import backgroundImage from '../../assets/l1.jpg';
 import backgroundImage2 from '../../assets/l3.jpg';
 import backgroundImage3 from '../../assets/l4.jpg';

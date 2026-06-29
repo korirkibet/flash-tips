@@ -1,6 +1,6 @@
 import { ArrowUpward, Facebook, Telegram, WhatsApp, X } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
-import './Footer.scss';
+
 import { Link, NavLink } from 'react-router-dom';
 import Newsletter from '../Newsletter/Newsletter';
 import { socialLinks } from '../../data';

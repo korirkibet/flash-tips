@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import Contact from '../components/Contact/Contact';
 import FaqItem from '../components/FaqItem/FaqItem';
-import Bg from '../assets/bg.mp4';
+import Bg from '../assets/l4.jpg';
 import { faqs } from '../data';
 import AppHelmet from '../components/AppHelmet';
 
@@ -13,9 +13,7 @@ export default function About() {
 <div className='about'>
     <AppHelmet title={"About"} location={'/about'}/>
     <div className="quote">
-      <video className='video' autoPlay loop muted>
-        <source src={Bg} type='video/mp4' />
-      </video>
+      <img className="video" src={Bg} alt="Flash VIP Tips" />
       <div className='content'>
         <p>
         Welcome to Flash VIP Tips, your go-to platform for accurate and reliable football betting predictions. Our mission is to provide football enthusiasts and bettors with expert tips, in-depth analysis, and strategic insights to help you make informed betting decisions.

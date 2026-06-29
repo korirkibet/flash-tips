@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './PostDetails.scss';
-import Profile from '../../assets/vip.jpg';
-import Logo from '../../assets/logo.png';
+
+import Profile from '/logo192.png';
+import Logo from '/logo192.png';
 import { Close, ErrorTwoTone, Verified} from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { PriceContext } from '../../PriceContext';

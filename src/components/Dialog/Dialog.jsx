@@ -1,5 +1,5 @@
 import React from 'react';
-import './Dialog.scss';
+
 import { NavLink } from 'react-router-dom';
 import { Done, Error } from '@mui/icons-material';
 

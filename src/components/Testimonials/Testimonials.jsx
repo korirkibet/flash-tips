@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './Testimonials.scss'
+
 import { testimonials } from '../../data'
 
 export default function Testimonials() {

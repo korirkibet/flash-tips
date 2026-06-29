@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './FaqItem.scss'
+
 import { ArrowBackIos, ArrowDownwardRounded, ArrowForwardIos, ArrowUpwardRounded} from '@mui/icons-material';
 
 export default function FaqItem({question, answer}) {

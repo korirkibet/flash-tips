@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './Contact.scss';
-import Logo from '../../assets/logo.png';
+
+import Logo from '/logo192.png';
 import { Email, Phone } from '@mui/icons-material';
 import { Link, NavLink } from 'react-router-dom';
 import Dialog from '../Dialog/Dialog';

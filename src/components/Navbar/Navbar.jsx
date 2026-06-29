@@ -1,49 +1,84 @@
 import { Close, Menu } from '@mui/icons-material';
-import Logo from '../../assets/logo.png';
-import './Navbar.scss';
-import { NavLink } from "react-router-dom";
-import { useContext, useState } from 'react';
+import Logo from '/logo192.png';
+import { NavLink } from 'react-router-dom';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../AuthContext';
 import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 
-const Navbar = () => {
-    const { currentUser } = useContext(AuthContext);
-    const [closed, setClosed] = useState(true)
+const NAV_LINKS = [
+  { path: '/', label: 'Home' },
+  { path: '/tips', label: 'Tips' },
+  { path: '/about', label: 'About' }
+];
 
-    const handleToggleNav = async () => {
-        document.querySelector('.btn-wrapper').classList.toggle('closed');
-        document.querySelector('nav').classList.toggle('closed');
-        setClosed(!closed)
-    }
+export default function Navbar() {
+  const { currentUser } = useContext(AuthContext);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const headerRef = useRef(null);
 
-    const handleLogout = () => {
-        signOut(auth);
-    }
-    return (
-        <header>
-            <NavLink to="/" className='logo'>
-                <img src={Logo} alt='flash_vip_logo' />
-            </NavLink>
-            <nav className='closed'>
-                <NavLink to="/" title='home' onClick={handleToggleNav}>Home</NavLink>
-                <NavLink to="/tips" title='explore' onClick={handleToggleNav}>Tips</NavLink>
-                <NavLink to="/about" title='contact' onClick={handleToggleNav}>About</NavLink>
-            </nav>
-            <div className="btn-wrapper  closed" onClick={handleToggleNav}>
-                {
-                    currentUser ? <span className='btn' onClick={handleLogout}>Logout</span> : <>
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-                        <NavLink to={'/register'} className="btn" title='contribute'>Register</NavLink>
-                        <NavLink to={'/login'} className="btn" title='contribute'>Login</NavLink>
-                    </>
-                }
-            </div>
-            <div className="close" onClick={handleToggleNav}>{
-                closed ? <Menu /> : <Close />
-            }</div>
-        </header>
-    );
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (open && headerRef.current && !headerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  const handleLogout = () => {
+    signOut(auth);
+  };
+
+  return (
+    <header ref={headerRef} className={scrolled ? 'scrolled' : ''}>
+      <NavLink to="/" className="logo" onClick={() => setOpen(false)}>
+        <img src={Logo} alt="Flash VIP Tips" />
+      </NavLink>
+
+      <nav className={open ? '' : 'closed'}>
+        {NAV_LINKS.map(link => (
+          <NavLink
+            key={link.path}
+            to={link.path}
+            title={link.label.toLowerCase()}
+            onClick={() => setOpen(false)}
+            className={({ isActive }) => (isActive ? 'active' : '')}
+          >
+            {link.label}
+          </NavLink>
+        ))}
+      </nav>
+
+      <div className={`btn-wrapper ${open ? '' : 'closed'}`}>
+        {currentUser ? (
+          <span className="btn" onClick={handleLogout}>Logout</span>
+        ) : (
+          <>
+            <NavLink to="/register" className="btn" title="register" onClick={() => setOpen(false)}>Register</NavLink>
+            <NavLink to="/login" className="btn" title="login" onClick={() => setOpen(false)}>Login</NavLink>
+          </>
+        )}
+      </div>
+
+      <div className="navbar__backdrop" style={{ display: open ? 'block' : 'none' }} onClick={() => setOpen(false)} />
+
+      <div className="close" onClick={() => setOpen(!open)}>
+        {open ? <Close /> : <Menu />}
+      </div>
+    </header>
+  );
 }
-
-export default Navbar;

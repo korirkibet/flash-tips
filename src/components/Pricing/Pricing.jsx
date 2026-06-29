@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import './Pricing.scss'
+
 import { PriceContext } from '../../PriceContext';
 import { useNavigate } from 'react-router-dom';
 

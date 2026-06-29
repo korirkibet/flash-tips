@@ -1,6 +1,5 @@
 import { Facebook, Instagram, Telegram, WhatsApp, X } from '@mui/icons-material';
 import React from 'react';
-import './Topbar.scss';
 import { Link } from 'react-router-dom';
 import { socialLinks } from '../../data';
 

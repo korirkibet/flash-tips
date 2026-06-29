@@ -1,5 +1,5 @@
-import Logo from './assets/logo.png'
-import Logo128 from './assets/logo128.png'
+const Logo = '/logo192.png';
+const Logo128 = '/logo128.png';
 
 export async function requestNotificationPermission() {
     if ('Notification' in window) {
